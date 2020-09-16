@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static%}
+{% block content %}
+
+
+<div class="container">
+    <div class="row">
+        {% for post in post_list %}
+        <div class="col-md-8 mt-3 left">
+            <div class="row no-gutters card__shadow">
+                <div class="col-md-4">
+                    <img src="{{post.imageURL}}" class="card-img">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body ">
+                        <h4 class="card-title font-weight-bold ">{{ post.title }}</h4>
+                        <p class="card-text text-muted h6"></p>
+                        <p class="card-text">{{post.content|slice:":200" }} <a href="{% url 'post_detail' post.id  %}" class="btn btn_readmore">Read More &rarr;</a></p>
+                        <p class="card-text">
+                            <small class="text-muted">{{ post.author }} | {{ post.created_on}}</small>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+        {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+    </div>
+
+    <div class="pagination">
+    {% if is_paginated %}
+
+        <nav aria-label="Page navigation conatiner">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
+
+            {% endif %}
+        </ul>
+        </nav>
+    {% endif %}
+    </div>
+</div>
+{%endblock%}
